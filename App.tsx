@@ -1,120 +1,68 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
-
-import React, {type PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-const Section: React.FC<
-  PropsWithChildren<{
-    title: string;
-  }>
-> = ({children, title}) => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
+import React, { useEffect, useState } from 'react';
+import { Alert, PermissionsAndroid, SafeAreaView, Text, TouchableHighlight, View } from 'react-native';
+import { Camera  } from 'react-native-vision-camera';
 
 const App = () => {
-  const isDarkMode = useColorScheme() === 'dark';
+ 
+  const [isPermitted, SetIsPermitted] = useState(false)
+  //var camera:any;
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  const RequestCamaraPermission = async() => {
+    try{
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMARA
+        // {
+        //   title: 'Permiso Camara',
+        //   message: 'Aplicaciión necesita acceso a ala camara'
+        // },
+      );
+      return granted === PermissionsAndroid.RESULTS.GRANTED
+    } catch (err){
+      console.warn(err);
+      return false;
+    }
+  }
 
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+  const OpenCamara = async() =>{
+    if( await RequestCamaraPermission()){
+      SetIsPermitted(true)
+    } else console.log('ERROR');
+  }
+  
+  const help = async() =>{
+    {/////////////////NO SE COMO USAR AWAITS///////////////////
+      const devices = await Camera.getAvailableCameraDevices()
+      const sorted = devices.sort()
+      
+      return {
+        back: sorted.find((d) => d.position === "back"),
+        front: sorted.find((d) => d.position === "front")
+      }}
+  }
+
+  const devices = help()
+
+  return(
+    
+    <SafeAreaView>
+      {isPermitted? (
+        <View>   
+          <Camera
+            device={devices.back}
+            isActive={true}
+          />
         </View>
-      </ScrollView>
+      ):(
+        <View>
+          <Text> CAMARA</Text>
+          <TouchableHighlight onPress={OpenCamara}>
+            <Text>ABRIR CAMARA</Text>
+          </TouchableHighlight>
+        </View>
+      )}
     </SafeAreaView>
-  );
-};
+  )
+   
+}
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
-
-export default App;
+export default App
