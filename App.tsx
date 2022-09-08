@@ -4,10 +4,10 @@ import { Camera  } from 'react-native-vision-camera';
 
 const App = () => {
  
-  const [isPermitted, setIsPermitted] = useState(false)
+  const [isPermitted, SetIsPermitted] = useState(false)
   //var camera:any;
 
-  const requestCamaraPermission = async() => {
+  const RequestCamaraPermission = async() => {
     try{
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.CAMARA
@@ -23,9 +23,9 @@ const App = () => {
     }
   }
 
-  const openCamara = async() =>{
-    if( await requestCamaraPermission()){
-      setIsPermitted(true)
+  const OpenCamara = async() =>{
+    if( await RequestCamaraPermission()){
+      SetIsPermitted(true)
     } else console.log('ERROR');
   }
   
@@ -55,7 +55,7 @@ const App = () => {
       ):(
         <View>
           <Text> CAMARA</Text>
-          <TouchableHighlight onPress={openCamara}>
+          <TouchableHighlight onPress={OpenCamara}>
             <Text>ABRIR CAMARA</Text>
           </TouchableHighlight>
         </View>
