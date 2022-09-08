@@ -1,7 +1,6 @@
 import React from 'react'
 
 import { StyleSheet, View, Button, Alert, Text } from 'react-native'
-import { Camera, CameraType } from 'react-native-camera-kit'
 
 import App from '../../App'
 

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Alert, PermissionsAndroid, SafeAreaView, Text, TouchableHighlight, View } from 'react-native';
-import { Camera, CameraType, CameraScreen } from 'react-native-camera-kit';
+import { Camera  } from 'react-native-vision-camera';
 
 const App = () => {
  
   const [isPermitted, setIsPermitted] = useState(false)
-  var camera:any;
+  //var camera:any;
 
   const requestCamaraPermission = async() => {
     try{
@@ -28,14 +28,28 @@ const App = () => {
       setIsPermitted(true)
     } else console.log('ERROR');
   }
+  
+  const help = async() =>{
+    {/////////////////NO SE COMO USAR AWAITS///////////////////
+      const devices = await Camera.getAvailableCameraDevices()
+      const sorted = devices.sort()
+      
+      return {
+        back: sorted.find((d) => d.position === "back"),
+        front: sorted.find((d) => d.position === "front")
+      }}
+  }
+
+  const devices = help()
 
   return(
+    
     <SafeAreaView>
       {isPermitted? (
-        <View>
+        <View>   
           <Camera
-            ref={(ref:any) => (camera = ref)}
-            cameraType={CameraType.Back} // front/back(default)
+            device={devices.back}
+            isActive={true}
           />
         </View>
       ):(
