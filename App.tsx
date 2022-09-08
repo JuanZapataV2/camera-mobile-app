@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, PermissionsAndroid, SafeAreaView, Text, TouchableHighlight, View } from 'react-native';
-import { Camera  } from 'react-native-vision-camera';
+import { Alert, PermissionsAndroid, SafeAreaView, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import { Camera, useCameraDevices  } from 'react-native-vision-camera';
 
 const App = () => {
  
   const [isPermitted, SetIsPermitted] = useState(false)
-  //var camera:any;
+  const devices = useCameraDevices('wide-angle-camera')
+  const device = devices.back!
 
   const RequestCamaraPermission = async() => {
     try{
       const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.CAMARA
+        PermissionsAndroid.PERMISSIONS.CAMERA
         // {
         //   title: 'Permiso Camara',
         //   message: 'Aplicaciión necesita acceso a ala camara'
@@ -29,32 +30,20 @@ const App = () => {
     } else console.log('ERROR');
   }
   
-  const help = async() =>{
-    {/////////////////NO SE COMO USAR AWAITS///////////////////
-      const devices = await Camera.getAvailableCameraDevices()
-      const sorted = devices.sort()
-      
-      return {
-        back: sorted.find((d) => d.position === "back"),
-        front: sorted.find((d) => d.position === "front")
-      }}
-  }
-
-  const devices = help()
-
   return(
     
     <SafeAreaView>
       {isPermitted? (
         <View>   
           <Camera
-            device={devices.back}
+            style={StyleSheet.absoluteFill}
+            device={device}
             isActive={true}
           />
         </View>
       ):(
         <View>
-          <Text> CAMARA</Text>
+          <Text> CAMARA APP</Text>
           <TouchableHighlight onPress={OpenCamara}>
             <Text>ABRIR CAMARA</Text>
           </TouchableHighlight>
