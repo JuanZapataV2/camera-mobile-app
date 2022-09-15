@@ -10,9 +10,10 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "@react-navigation/stack": "^6.2.3",
+    "deprecated-react-native-prop-types": "^2.2.0",
     "react": "18.1.0",
     "react-native": "0.70.0",
-    "react-native-camera": "^4.2.1",
     "react-native-vision-camera": "^2.14.1"
   },
   "devDependencies": {

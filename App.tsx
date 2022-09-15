@@ -12,11 +12,13 @@ import {
   Dimensions,
 } from 'react-native';
 import {Camera, useCameraDevices} from 'react-native-vision-camera';
+import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
-const App = () => {
+
+function App() {
   const [isPermitted, SetIsPermitted] = useState(false);
-  const devices = useCameraDevices('wide-angle-camera');
-  const device = devices.back!;
+  const devices = useCameraDevices()
+  const device = devices.back
   const {height} = Dimensions.get('window');
 
   const RequestCamaraPermission = async () => {
@@ -77,31 +79,34 @@ const App = () => {
     },
   });
 
+  if (device == null) {
+    return "No se encuentra ninguna cámara disponible";
+  }
   return (
-    <SafeAreaView>
-      {isPermitted ? (
-        <View>
-          <Camera
-            style={StyleSheet.absoluteFill}
-            device={device}
-            isActive={true}
-          />
-        </View>
-      ) : (
-        <View style={styles.container}>
-          <TouchableHighlight onPress={OpenCamara}>
-            <View style={styles.button1}>
-              <Text>Abrir Cámara</Text>
-            </View>
-          </TouchableHighlight>
-          <TouchableHighlight onPress={close}>
-            <View style={styles.button2}>
-              <Text>Salir</Text>
-            </View>
-          </TouchableHighlight>
-        </View>
-      )}
-    </SafeAreaView>
+    <Camera
+        style={StyleSheet.absoluteFillObject}
+        device={device}
+        isActive={true}
+    /> 
+
+    //   <View>
+    // {isPermitted ? (
+    //     <Camera
+    //       style={StyleSheet.absoluteFillObject}
+    //       device={device}
+    //       isActive={true}
+    //     /> 
+    //   ) : (
+    //     <Camera
+    //       style={StyleSheet.absoluteFillObject}
+    //       device={device}
+    //       isActive={true}
+    //     />
+    //   )}
+
+    //   </View>
+      
+  
   );
 };
 
