@@ -14,7 +14,11 @@ import {
 import {Camera, useCameraDevices} from 'react-native-vision-camera';
 import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 import { NavigationContainer } from '@react-navigation/native';
+<<<<<<< Updated upstream
 import { createStackNavigator } from '@react-navigation/stack';
+=======
+import { createNativeStackNavigator  } from '@react-navigation/native-stack';
+>>>>>>> Stashed changes
 import { Camerascreen } from './src/screens/Camerascreen';
 
 
@@ -23,7 +27,12 @@ const App = () => {
   const devices = useCameraDevices()
   const device = devices.back
   const {height} = Dimensions.get('window');
+<<<<<<< Updated upstream
   const Stack = createStackNavigator();
+=======
+  const Stack = createNativeStackNavigator ();
+  
+>>>>>>> Stashed changes
   const RequestCamaraPermission = async () => {
     try {
       const granted = await PermissionsAndroid.request(
@@ -97,11 +106,15 @@ const App = () => {
              />
            </Stack.Navigator>
          </NavigationContainer>
+<<<<<<< Updated upstream
           <TouchableHighlight onPress={this.props.navigation.navigate('Camera')}>
             <View style={styles.button1}>
               <Text>Abrir Cámara</Text>
             </View>
           </TouchableHighlight>
+=======
+          
+>>>>>>> Stashed changes
           
           <TouchableHighlight onPress={close}>
             <View style={styles.button2}>

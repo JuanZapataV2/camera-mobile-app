@@ -1,6 +1,10 @@
 import React from 'react'
 
 import { StyleSheet, View, Button, Alert, Text, SafeAreaView } from 'react-native'
+<<<<<<< Updated upstream
+=======
+import { Camera } from 'react-native-vision-camera'
+>>>>>>> Stashed changes
 
 import App from '../../App'
 
