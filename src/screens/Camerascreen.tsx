@@ -1,12 +1,16 @@
 import React from 'react'
 
-import { StyleSheet, View, Button, Alert, Text } from 'react-native'
+import { StyleSheet, View, Button, Alert, Text, SafeAreaView } from 'react-native'
 
 import App from '../../App'
 
 export const Camerascreen = () => {
   return (
-    <Text>AYUDA</Text>
+    <Camera
+      style={StyleSheet.absoluteFill}
+      device={device}
+      isActive={true}
+    />
   )
 }
 

@@ -13,6 +13,9 @@ import {
 } from 'react-native';
 import {Camera, useCameraDevices} from 'react-native-vision-camera';
 import { ViewPropTypes } from 'deprecated-react-native-prop-types';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { Camerascreen } from './src/screens/Camerascreen';
 
 
 const App = () => {
@@ -20,7 +23,7 @@ const App = () => {
   const devices = useCameraDevices()
   const device = devices.back
   const {height} = Dimensions.get('window');
-
+  const Stack = createStackNavigator();
   const RequestCamaraPermission = async () => {
     try {
       const granted = await PermissionsAndroid.request(
@@ -41,6 +44,7 @@ const App = () => {
     if (await RequestCamaraPermission()) {
       SetIsPermitted(true);
     } else console.log('ERROR');
+    
   };
 
   const close = async () => {
@@ -82,38 +86,29 @@ const App = () => {
   if (device == null) {
     return false;
   }
+
   return (
-    <Camera
-      style={StyleSheet.absoluteFill}
-      device={device}
-      isActive={true}
-    />
-        
-    //   <View>
-    //   {isPermitted ? (
-    //     <View>
-    //       <Camera
-    //         style={StyleSheet.absoluteFill}
-    //         device={device}
-    //         isActive={true}
-    //       />
-    //     </View>
-    //   ):(
-    //     <View style={styles.container}>
-    //       <TouchableHighlight onPress={OpenCamara}>
-    //         <View style={styles.button1}>
-    //           <Text>Abrir Cámara</Text>
-    //         </View>
-    //       </TouchableHighlight>
+        <View style={styles.container}>
+          <NavigationContainer>
+            <Stack.Navigator>
+             <Stack.Screen
+               name="Camera"
+                component={Camerascreen}
+             />
+           </Stack.Navigator>
+         </NavigationContainer>
+          <TouchableHighlight onPress={this.props.navigation.navigate('Camera')}>
+            <View style={styles.button1}>
+              <Text>Abrir Cámara</Text>
+            </View>
+          </TouchableHighlight>
           
-    //       <TouchableHighlight onPress={close}>
-    //         <View style={styles.button2}>
-    //           <Text>Salir</Text>
-    //         </View>
-    //       </TouchableHighlight>
-    //     </View>
-    //   )}
-    // </View>
+          <TouchableHighlight onPress={close}>
+            <View style={styles.button2}>
+              <Text>Salir</Text>
+            </View>
+          </TouchableHighlight>
+        </View>  
   );
 };
 
