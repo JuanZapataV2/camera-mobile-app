@@ -15,7 +15,7 @@ import {Camera, useCameraDevices} from 'react-native-vision-camera';
 import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 
 
-function App() {
+const App = () => {
   const [isPermitted, SetIsPermitted] = useState(false);
   const devices = useCameraDevices()
   const device = devices.back
@@ -80,33 +80,40 @@ function App() {
   });
 
   if (device == null) {
-    return "No se encuentra ninguna cámara disponible";
+    return false;
   }
   return (
     <Camera
-        style={StyleSheet.absoluteFillObject}
-        device={device}
-        isActive={true}
-    /> 
-
+      style={StyleSheet.absoluteFill}
+      device={device}
+      isActive={true}
+    />
+        
     //   <View>
-    // {isPermitted ? (
-    //     <Camera
-    //       style={StyleSheet.absoluteFillObject}
-    //       device={device}
-    //       isActive={true}
-    //     /> 
-    //   ) : (
-    //     <Camera
-    //       style={StyleSheet.absoluteFillObject}
-    //       device={device}
-    //       isActive={true}
-    //     />
+    //   {isPermitted ? (
+    //     <View>
+    //       <Camera
+    //         style={StyleSheet.absoluteFill}
+    //         device={device}
+    //         isActive={true}
+    //       />
+    //     </View>
+    //   ):(
+    //     <View style={styles.container}>
+    //       <TouchableHighlight onPress={OpenCamara}>
+    //         <View style={styles.button1}>
+    //           <Text>Abrir Cámara</Text>
+    //         </View>
+    //       </TouchableHighlight>
+          
+    //       <TouchableHighlight onPress={close}>
+    //         <View style={styles.button2}>
+    //           <Text>Salir</Text>
+    //         </View>
+    //       </TouchableHighlight>
+    //     </View>
     //   )}
-
-    //   </View>
-      
-  
+    // </View>
   );
 };
 
